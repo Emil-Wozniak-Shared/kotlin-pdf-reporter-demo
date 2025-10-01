@@ -1,4 +1,4 @@
 # Report
 ```
-http://localhost:8080/report
+http://localhost:8080/api/report
 ```
