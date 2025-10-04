@@ -1,7 +1,9 @@
 package pl.ejdev.reporter.model
 
-data class UserDto(
+import java.util.UUID
+
+data class User(
+    val id: UUID,
     val firstName: String,
     val lastName: String,
-    val pesel: String,
 )

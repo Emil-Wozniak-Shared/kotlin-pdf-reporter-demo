@@ -1,66 +1,43 @@
 package pl.ejdev.reporter.templates
 
 import kotlinx.html.*
-import kotlinx.html.stream.createHTML
-import pl.ejdev.reporter.model.UserDto
+import pl.ejdev.reporter.model.User
 
-object UserReportHtmlTemplate : HtmlTemplate {
-    override fun getType(): HtmlTemplate.Type = HtmlTemplate.Type.User
+private const val TITLE = "Student Report Card"
+private const val FIRST_NAME = "First name"
+private const val LAST_NAME = "Last name"
+private const val ID = "ID"
+
+object UserReportHtmlTemplate : HtmlTemplate() {
+    override val type: Type = Type.User
 
     @Suppress("UNCHECKED_CAST")
-    override fun template(data: List<Any>): String = createHTML().html {
-        val users = data as List<UserDto>
-        head {
-            style {
-                unsafe {
-                    +rawCss()
-                }
-            }
-        }
+    override fun template(data: List<Any>): String = html(TITLE) {
+        val users = data as List<User>
         body {
             div {
-                lang = "en/GB"
-                h2 { +"Users:" }
+                h2 { +TITLE }
                 table {
-                    tr {
-                        th { +"Firt name" }
-                        th { +"Last name" }
-                        th { +"PESEL" }
-                    }
-                    users.forEach { user ->
+                    thead {
                         tr {
-                            td { +user.firstName }
-                            td { +user.lastName }
-                            td { +user.pesel }
+                            th(ThScope.col) { +ID }
+                            th(ThScope.col) { +FIRST_NAME }
+                            th(ThScope.col) { +LAST_NAME }
                         }
                     }
+                    tbody { usersRows(users) }
                 }
             }
         }
     }
 
-    private fun rawCss(): String = """
-	table {
-	   font-family: Arial, Helvetica, sans-serif;
-	   border-collapse: collapse;
-	   width: 100%;
-	 }
-	 
-	td, th {
-	   border: 1px solid #ddd;
-	   padding: 8px;
-	}
-	 
-	tr:nth-child(even){background-color: #f2f2f2;}
-	 
-	tr:hover {background-color: #ddd;}
-	 
-	th {
-	   padding-top: 12px;
-	   padding-bottom: 12px;
-	   text-align: left;
-	   background-color: #04AA6D;
-	   color: white;
-	}
-    """.trimIndent()
+    private fun TBODY.usersRows(users: List<User>) {
+        users.forEach { user ->
+            tr {
+                td { +user.id.toString() }
+                td { +user.firstName }
+                td { +user.lastName }
+            }
+        }
+    }
 }

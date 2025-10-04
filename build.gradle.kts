@@ -20,8 +20,11 @@ repositories {
 }
 
 dependencies {
-	implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10")
-	implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.12.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.11.0")
+    implementation("com.openhtmltopdf:openhtmltopdf-core:1.0.10")
+    implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10")
+    implementation("io.arrow-kt:arrow-core-jvm:2.1.2")
+    runtimeOnly("io.arrow-kt:arrow-core:2.1.2")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
