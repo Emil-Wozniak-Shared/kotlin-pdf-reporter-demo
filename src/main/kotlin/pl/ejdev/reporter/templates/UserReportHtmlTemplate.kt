@@ -15,7 +15,6 @@ class UsersTemplateData(
 object UserReportHtmlTemplate : HtmlTemplate<UsersTemplateData, List<User>>() {
     override val type: Type = Type.User
 
-    @Suppress("UNCHECKED_CAST")
     override fun template(data: UsersTemplateData): String = html(TITLE) {
         val users = data.users
         body {
