@@ -14,6 +14,7 @@ import pl.ejdev.reporter.repository.UserDao
 import pl.ejdev.reporter.service.*
 import pl.ejdev.reporter.templates.HtmlTemplate
 import pl.ejdev.reporter.templates.LessonReportHtmlTemplate
+import pl.ejdev.reporter.templates.TemplateData
 import pl.ejdev.reporter.templates.UserReportHtmlTemplate
 
 @SpringBootApplication
@@ -28,7 +29,7 @@ object AppConfiguration {
         bean<UserDao> { MockUserDao() }
         bean<LessonDao> { MockLessonDao() }
         bean<PdfRenderService> { PdfRenderServiceImpl(ref(name = TEMPLATES_QUALIFIER), ref(), ref()) }
-        bean<Map<HtmlTemplate.Type, HtmlTemplate>>(name = TEMPLATES_QUALIFIER) {
+        bean<Map<HtmlTemplate.Type, HtmlTemplate<out TemplateData<*>, *>>>(name = TEMPLATES_QUALIFIER) {
             mapOf(
                 UserReportHtmlTemplate.type to UserReportHtmlTemplate,
                 LessonReportHtmlTemplate.type to LessonReportHtmlTemplate,

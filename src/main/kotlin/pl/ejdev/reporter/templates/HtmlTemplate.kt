@@ -3,8 +3,12 @@ package pl.ejdev.reporter.templates
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
 
-abstract class HtmlTemplate {
-    abstract fun template(data: List<Any>): String
+abstract class TemplateData<T: Any>(
+    val data: T
+)
+
+abstract class HtmlTemplate<TD: TemplateData<T>,  T : Any> {
+    abstract fun template(data: TD): String
 
     abstract val type: Type
 

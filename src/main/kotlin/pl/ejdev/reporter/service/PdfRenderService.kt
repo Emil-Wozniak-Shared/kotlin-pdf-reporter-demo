@@ -3,6 +3,9 @@ package pl.ejdev.reporter.service
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
 import pl.ejdev.reporter.repository.jsUuid
 import pl.ejdev.reporter.templates.HtmlTemplate
+import pl.ejdev.reporter.templates.LessonsTemplateData
+import pl.ejdev.reporter.templates.TemplateData
+import pl.ejdev.reporter.templates.UsersTemplateData
 import java.io.ByteArrayOutputStream
 
 interface PdfRenderService {
@@ -10,7 +13,7 @@ interface PdfRenderService {
 }
 
 class PdfRenderServiceImpl(
-    private val templates: Map<HtmlTemplate.Type, HtmlTemplate>,
+    private val templates: Map<HtmlTemplate.Type, HtmlTemplate<TemplateData<*>, *>>,
     private val userService: UserService,
     private val lessonService: LessonService
 ) : PdfRenderService {
@@ -23,9 +26,9 @@ class PdfRenderServiceImpl(
                 .let(::renderToBytes)
         }
 
-    private fun resolveData(type: HtmlTemplate.Type): List<Any> = when (type) {
-        HtmlTemplate.Type.User -> userService.getAll()
-        HtmlTemplate.Type.Lesson -> lessonService.getByUserId(jsUuid)
+    private fun resolveData(type: HtmlTemplate.Type): TemplateData<*> = when (type) {
+        HtmlTemplate.Type.User -> UsersTemplateData(userService.getAll())
+        HtmlTemplate.Type.Lesson -> LessonsTemplateData(lessonService.getByUserId(jsUuid))
     }
 
     private fun findTypeOrThrow(code: String): HtmlTemplate.Type =

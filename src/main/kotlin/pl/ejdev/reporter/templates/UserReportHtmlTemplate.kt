@@ -8,12 +8,16 @@ private const val FIRST_NAME = "First name"
 private const val LAST_NAME = "Last name"
 private const val ID = "ID"
 
-object UserReportHtmlTemplate : HtmlTemplate() {
+class UsersTemplateData(
+    val users: List<User>
+) : TemplateData<List<User>>(users)
+
+object UserReportHtmlTemplate : HtmlTemplate<UsersTemplateData, List<User>>() {
     override val type: Type = Type.User
 
     @Suppress("UNCHECKED_CAST")
-    override fun template(data: List<Any>): String = html(TITLE) {
-        val users = data as List<User>
+    override fun template(data: UsersTemplateData): String = html(TITLE) {
+        val users = data.users
         body {
             div {
                 h2 { +TITLE }

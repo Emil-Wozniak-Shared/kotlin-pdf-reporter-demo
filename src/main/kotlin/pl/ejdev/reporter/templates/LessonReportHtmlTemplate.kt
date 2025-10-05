@@ -16,12 +16,16 @@ private const val POINTS = "Points"
 private const val TOTAL = "Total"
 private const val GPA = "GPA"
 
-object LessonReportHtmlTemplate : HtmlTemplate() {
+class LessonsTemplateData(
+    val lessons: List<Lesson>
+) : TemplateData<List<Lesson>>(lessons)
+
+object LessonReportHtmlTemplate : HtmlTemplate<LessonsTemplateData, List<Lesson>>() {
+
     override val type: Type = Type.Lesson
 
-    @Suppress("UNCHECKED_CAST")
-    override fun template(data: List<Any>): String = html(TITLE) {
-        val lessons = data as List<Lesson>
+    override fun template(data: LessonsTemplateData): String = html(TITLE) {
+        val lessons = data.lessons
         body {
             h2 { +TITLE }
             table {
